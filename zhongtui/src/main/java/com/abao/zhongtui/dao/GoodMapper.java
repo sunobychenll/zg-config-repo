@@ -14,5 +14,7 @@ public interface GoodMapper {
 
     
     int updateGoodsNum(Integer goodId);
-    
+
+    @Select("select * from goods")
+    List<Goods> selectAll();
 }

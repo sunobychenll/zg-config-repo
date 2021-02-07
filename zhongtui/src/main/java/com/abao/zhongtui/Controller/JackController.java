@@ -1,6 +1,10 @@
 package com.abao.zhongtui.Controller;
 
+import com.abao.zhongtui.bean.Animal;
 import com.abao.zhongtui.bean.ConsultConfigArea;
+import com.abao.zhongtui.mongo.MongoService;
+import com.abao.zhongtui.mongo.User;
+import com.abao.zhongtui.service.AnimalService;
 import com.abao.zhongtui.service.AreaService;
 import com.abao.zhongtui.service.BuyRecordService;
 import com.abao.zhongtui.service.GoodService;
@@ -9,12 +13,14 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,18 +29,22 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.*;
 
 @Controller
-@Api(tags = "springboot学习工程相关接口")
+@Slf4j
+@Api(tags = "springboot工程相关接口")
 public class JackController {
     
     private static final Logger logger = LoggerFactory.getLogger(JackController.class);
     
     @Autowired
     AreaService areaService;
+
+
     @Autowired
     GoodService goodService;
     @Autowired
     BuyRecordService buyRecordService;
-
+    @Autowired
+    MongoService mongoService;
 
     @Value("${application.field:default value jack}")
     private String zhuguangField = "";
@@ -94,10 +104,37 @@ public class JackController {
         return "OK";
     }
 
+
+    @RequestMapping("/mongoOperFindAll")
+    public @ResponseBody String mongoOperFindAll(String param) {
+        //http://localhost:8090/mongoOperFindAll
+
+        List<User> areas = mongoService.findAll();
+        for (User area : areas) {
+            logger.info(area.getId() + "   " + area.getUsername() + "   "
+                    + area.getPassword());
+        }
+
+        return "mongo OK";
+    }
+
+    @RequestMapping("/mongoOperSave")
+    public @ResponseBody String mongoOperSave(String param) {
+        //http://localhost:8090/mongoOperSave
+        User user = new User();
+        user.setId("444");
+        user.setUsername("ddd");
+        user.setPassword("ddd444");
+
+        String result = mongoService.save(user);
+
+        return result + " OK";
+    }
+
     @Transactional
     @RequestMapping("/buyGoods")
     public @ResponseBody String buyGoods(@RequestParam Integer goodId) {
-        //http://localhost:8088/buyGoods?goodId=6
+        //http://localhost:8090/buyGoods?goodId=6
         goodService.buyGoods(goodId);
         buyRecordService.insertBuyRecord(goodId);
         return "good OK";
@@ -111,5 +148,21 @@ public class JackController {
     @RequestMapping("/testDevTool1")
     public @ResponseBody String testDevTool1() {
         return "OK";
+    }
+
+    private AnimalService animalService;
+
+
+    @Autowired
+    public JackController(AnimalService animalService) {
+        this.animalService = animalService;
+    }
+
+    @GetMapping("/queryAnimal")
+    @ResponseBody
+    public Animal queryAnimal(@RequestParam(value = "ID") Integer ID) {
+        Animal animal = animalService.getAnimal(ID);
+        log.info("animal " + animal.toString());
+        return animal;
     }
 }

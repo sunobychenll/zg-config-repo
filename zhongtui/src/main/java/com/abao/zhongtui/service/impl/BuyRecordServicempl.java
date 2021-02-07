@@ -12,14 +12,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class BuyRecordServicempl implements BuyRecordService {
 
-
     @Autowired
     BuyRecordMapper buyRecordMapper;
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Override
     public void insertBuyRecord(Integer goodId) {
+
         int buyStatus = buyRecordMapper.insertBuyRecord(goodId);
+
         if(buyStatus == 0){
             throw new RuntimeException("添加购买记录失败!");
         }

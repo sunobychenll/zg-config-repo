@@ -157,7 +157,7 @@ public class JackController {
     public JackController(AnimalService animalService) {
         this.animalService = animalService;
     }
-
+//http://localhost:8090/queryAnimal?ID=222
     @GetMapping("/queryAnimal")
     @ResponseBody
     public Animal queryAnimal(@RequestParam(value = "ID") Integer ID) {

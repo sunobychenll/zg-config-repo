@@ -18,9 +18,10 @@ public class SpiTest {
         ServiceLoader<Pay> spiDemoServiceLoader = ServiceLoader.load(Pay.class);
 
         Iterator<Pay> payIterator = spiDemoServiceLoader.iterator();
+        int i=1;
         while (payIterator.hasNext()){
             Pay pay = payIterator.next();
-            pay.pay();
+            pay.pay(i++ + "");
         }
     }
 
@@ -29,11 +30,11 @@ public class SpiTest {
 
         //找不到的话  在pom文件   <resource> <include>**/**</include>
         ServiceLoader<Pay> spiDemoServiceLoader = ServiceLoader.load(Pay.class);
-
+        int i=1;
         Iterator<Pay> payIterator = spiDemoServiceLoader.iterator();
         while (payIterator.hasNext()){
             Pay pay = payIterator.next();
-            pay.pay();
+            pay.pay(i++ + "");
         }
     }
 

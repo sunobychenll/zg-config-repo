@@ -7,10 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import java.util.List;
 
 @Controller
 public class HelloController {
@@ -19,5 +15,6 @@ public class HelloController {
        // http://localhost:8090/index
         return "index";
     }
+
 
 }

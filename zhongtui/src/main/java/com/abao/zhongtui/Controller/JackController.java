@@ -54,10 +54,27 @@ public class JackController {
             @ApiImplicitParam(name = "username", value = "用户名", defaultValue = "jack"),
             @ApiImplicitParam(name = "address", value = "用户地址", defaultValue = "长沙")
     })
-    @RequestMapping("/index2")
+    @RequestMapping("/indexJsp")
     public ModelAndView index() {
+        //http://localhost:8090/indexJsp
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("index.ftl");
+        mv.setViewName("index");
+        mv.addObject("time", new Date());
+        mv.addObject("message", zhuguangField);
+        return mv;
+    }
+
+
+    //http://localhost:8090/index2
+    @ApiOperation("freemark测试接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "username", value = "用户名", defaultValue = "jack"),
+            @ApiImplicitParam(name = "address", value = "用户地址", defaultValue = "长沙")
+    })
+    @RequestMapping("/index2")
+    public ModelAndView index2() {
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("aaa.ftl");
         mv.addObject("time", new Date());
         mv.addObject("message", zhuguangField);
         return mv;
